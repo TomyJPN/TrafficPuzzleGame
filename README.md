@@ -9,7 +9,7 @@ https://qiita.com/SkyLaptor/items/6347f38c8c010f4d5bd2
 
 なお，Git for WindowsはGitという””バージョン管理システムそのもの””で，Tortoise GitはGitをコマンドを打たずにGUI（アプリ画面）上で楽に操作するための””ソフト””です．Gitはコマンド派，という場合Tortoise Gitのインストールは不要です．
 
-1. Git for Windowsを公式ページ（https://gitforwindows.org/） からダウンロード，インストールする．
+1. Git for Windowsを公式ページ（https://gitforwindows.org/ ） からダウンロード，インストールする．
 
 2. Tortoise Gitを公式ページ（https://tortoisegit.org/ ）から本体と日本語言語パックをダウンロード，インストールする（先に本体を入れる！）
 
