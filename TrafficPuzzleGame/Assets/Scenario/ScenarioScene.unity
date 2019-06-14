@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 650850101}
   - component: {fileID: 650850100}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,7 +190,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: wakaba
+  m_Text: 
 --- !u!222 &650850101
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -353,7 +353,10 @@ MonoBehaviour:
   score_object: {fileID: 781895885}
   vs: []
   uiText: {fileID: 2136547502}
+  nameText: {fileID: 0}
   wakaba: {fileID: 781895885}
+  image: {fileID: 0}
+  textMessage: []
 --- !u!114 &781895888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,7 +636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1393590338
 RectTransform:
   m_ObjectHideFlags: 0
@@ -865,4 +868,7 @@ MonoBehaviour:
   - "\u305D\u3046\u306A\u3093"
   - "\u307E\u3042\u3044\u3044\u3084"
   uiText: {fileID: 2136547502}
+  nameText: {fileID: 650850100}
   wakaba: {fileID: 781895885}
+  image: {fileID: 1393590337}
+  textMessage: []
