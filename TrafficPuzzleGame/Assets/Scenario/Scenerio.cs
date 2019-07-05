@@ -23,7 +23,7 @@ public class Scenerio : MonoBehaviour {
   void Start() {
     CL = 0;
     TextAsset textasset = new TextAsset(); //テキストファイルのデータを取得するインスタンスを作成
-    textasset = Resources.Load("Test", typeof(TextAsset)) as TextAsset; //Resourcesフォルダから対象テキストを取得
+    textasset = Resources.Load("Text", typeof(TextAsset)) as TextAsset; //Resourcesフォルダから対象テキストを取得
     string TextLines = textasset.text; //テキスト全体をstring型で入れる変数を用意して入れる
 
     textMessage = TextLines.Split('\n');
