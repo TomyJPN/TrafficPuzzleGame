@@ -11,8 +11,10 @@ public class GachaScript : MonoBehaviour
     public GameObject CoinB; //常在コイン数表示オブジェクト管理
     public GameObject PopPro; //排出確立用ポップアップ
     public GameObject ErrorMessage; //コイン不足エラーメッセージ
-    public GameObject PopResult; //ガチャ結果ポップアップ
+    public GameObject PopResult; //ガチャ結果ポップアップ単発
+    public GameObject PopResults; //10連用結果画面
     public GameObject ResultImage; //ガチャ画像
+    public GameObject[] ResultImages; //10連
     private Sprite ResultImageSprite;
 
     public Text UserCoin; //常在コイン数表示用テキスト
@@ -32,9 +34,12 @@ public class GachaScript : MonoBehaviour
 
     int Have; //所持コイン
     int Rand; //乱数用変数
-    double Rpro;
-    double SRpro;
-    double SSRpro;
+    int RL;//Rの個数
+    int SRL;//SRの個数
+    int SSRL;//SSrの個数
+    double Rpro;//Rの確率管理
+    double SRpro;//SRの確率管理
+    double SSRpro;//SSRの確率管理
     
     // Start is called before the first frame update
     void Start()
@@ -59,6 +64,7 @@ public class GachaScript : MonoBehaviour
         //行数と列数を取得
         columnLength = textMessage[0].Split('\t').Length;
         rowLength = textMessage.Length;
+        RL = rowLength;
 
         //2次配列を定義
         RList = new string[rowLength, columnLength];
@@ -87,6 +93,7 @@ public class GachaScript : MonoBehaviour
         //行数と列数を取得
         columnLength = textMessage[0].Split('\t').Length;
         rowLength = textMessage.Length;
+        SRL = rowLength;
 
         //2次配列を定義
         SRList = new string[rowLength, columnLength];
@@ -114,6 +121,7 @@ public class GachaScript : MonoBehaviour
         //行数と列数を取得
         columnLength = textMessage[0].Split('\t').Length;
         rowLength = textMessage.Length;
+        SSRL = rowLength;
 
         //2次配列を定義
         SSRList = new string[rowLength, columnLength];
@@ -192,21 +200,21 @@ public class GachaScript : MonoBehaviour
             return;
         }
         GList.text = "----SSR----" + "\n";
-        for (int i = 0; i < 2 ; i++) {
+        for (int i = 0; i < SSRL ; i++) {
             GList.text += SSRList[i,1];
             GList.text += "   ";
             if(i%2 == 1) GList.text += "\n";
 
         }
         GList.text += "-----SR----" + "\n";
-        for (int i = 0; i < 5 ; i++)
+        for (int i = 0; i < SRL ; i++)
         {
             GList.text += SRList[i, 1];
             GList.text += "   ";
             if (i % 2 == 1) GList.text += "\n";
         }
         GList.text += "\n" + "------R----" + "\n";
-        for (int i = 0; i < 27 ; i++)
+        for (int i = 0; i < RL ; i++)
         {
             GList.text += RList[i, 1];
             GList.text += "   ";
@@ -246,25 +254,28 @@ public class GachaScript : MonoBehaviour
         ResultImage.SetActive(true);
         if(Rand <= SSRpro*10)
         {
-            Rand = Random.Range(0, 1);
+            Rand = Random.Range(0, SSRL-1);
             Debug.Log("Images/" + SSRList[Rand, 2] + "を読み込み");
             ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
+            ResultImage.GetComponent<Image>().sprite = null;
             ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
             GachaResult.text = "1 :   SSR :" + SSRList[Rand, 1];
         }
         else if (Rand > SSRpro*10 && Rand <= (SRpro+SRpro)*10)
         {
-            Rand = Random.Range(0, 1);
+            Rand = Random.Range(0, SRL-1);
             Debug.Log("Images/" + SRList[Rand, 2] + "を読み込み");
             ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
+            ResultImage.GetComponent<Image>().sprite = null;
             ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
             GachaResult.text = "1 :   SR :" + SRList[Rand, 1];
         }
         else
         {
-            Rand = Random.Range(0, 26);
+            Rand = Random.Range(0, RL-1);
             Debug.Log("Images/" + RList[Rand, 2] + "を読み込み");
             ResultImageSprite = Resources.Load<Sprite>("Images/" + RList[Rand,2]);
+            ResultImage.GetComponent<Image>().sprite = null;
             ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
             GachaResult.text = "1 :   R :" + RList[Rand,1];
         }
@@ -285,39 +296,56 @@ public class GachaScript : MonoBehaviour
         }
         Have -= 1000;
         UserCoin.text = Have.ToString() + "G";
-        for (int i = 1 ; i < 10; i++)
+        
+        for (int i = 0 ; i < 9; i++)
         {
             Rand = Random.Range(1, 1000);
             Debug.Log("Rand = " + Rand);
             if (Rand <= SSRpro*10)
             {
-                Rand = Random.Range(0, 2);
-                GachaResult.text += "\n" + i.ToString() + " : SSR :" + SSRList[Rand, 1];
+                Rand = Random.Range(0, SSRL-1);
+                Debug.Log("Images/" + SSRList[Rand, 2] + "を読み込み");
+                ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
+                ResultImages[i].GetComponent<Image>().sprite = null;
+                ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
             }
             else if (Rand > SSRpro*10 && Rand <= (SSRpro+SRpro)*10)
             {
-                Rand = Random.Range(0, 5);
-                GachaResult.text += "\n" + i.ToString() + " :  SR :" + SRList[Rand, 1];
+                Rand = Random.Range(0, SRL-1);
+                Debug.Log("Images/" + SRList[Rand, 2] + "を読み込み");
+                ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
+                ResultImages[i].GetComponent<Image>().sprite = null;
+                ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
             }
             else
             {
-                Rand = Random.Range(0, 26);
-                GachaResult.text += "\n" + i.ToString() + " :  R :" + RList[Rand, 1];
+                Rand = Random.Range(0, RL-1);
+                Debug.Log("Images/" + RList[Rand, 2] + "を読み込み");
+                ResultImageSprite = Resources.Load<Sprite>("Images/" + RList[Rand, 2]);
+                ResultImages[i].GetComponent<Image>().sprite = null;
+                ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
             }
         }
         Rand = Random.Range(0,1000);
         Debug.Log("Rand = " + Rand);
         if (Rand <= SSRpro*10)
         {
-            Rand = Random.Range(0, 2);
-            GachaResult.text += "\n" + "10" + " : SSR :" + SSRList[Rand, 1];
+            Rand = Random.Range(0, SSRL-1);
+            Debug.Log("Images/" + SSRList[Rand, 2] + "を読み込み");
+            ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
+            ResultImages[9].GetComponent<Image>().sprite = null;
+            ResultImages[9].GetComponent<Image>().sprite = ResultImageSprite;
         }
         else
         {
-            Rand = Random.Range(0, 5);
-            GachaResult.text += "\n" + "10" + " :  SR :" + SRList[Rand, 1];
+            Rand = Random.Range(0, SRL-1);
+            Debug.Log("Images/" + SRList[Rand, 2] + "を読み込み");
+            ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
+            ResultImages[9].GetComponent<Image>().sprite = null;
+            ResultImages[9].GetComponent<Image>().sprite = ResultImageSprite;
         }
         PopResult.SetActive(true);
+        PopResults.SetActive(true);
         
     }
 
@@ -366,7 +394,8 @@ public class GachaScript : MonoBehaviour
     {
         Debug.Log("Close_Popresult");
         PopResult.SetActive(false);
-        ResultImage.SetActive(false);
+        if (ResultImage.activeSelf == true) ResultImage.SetActive(false);
+        if (PopResults.activeSelf == true) PopResults.SetActive(false);
         GachaResult.text = null;
     }
 }
