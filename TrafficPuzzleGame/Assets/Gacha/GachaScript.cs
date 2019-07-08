@@ -18,17 +18,23 @@ public class GachaScript : MonoBehaviour
     public Text UserCoin; //常在コイン数表示用テキスト
     public Text UserCoin2; //コイン数詳細表示用テキスト
     public Text GachaResult; //ガチャ結果表示(仮)
+    public Text GList; //リスト画面表示用
+    public Text PList; //提供割合表示
 
     //読み込み関連
     public string[] textMessage; //テキストの加工前の一行を入れる変数
-    public string[,] RList; //テキストの複数列を入れる2次元は配列
-    public string[,] SRList;
-    public string[,] SSRList;
+    public string[,] RList; //Rのリスト
+    public string[,] SRList;　//SRのリスト
+    public string[,] SSRList; //SSRのリスト
+    public string[,] proList; //確率のリスト
     private int rowLength; //テキスト内の行数を取得する変数
     private int columnLength; //テキスト内の列数を取得する変数
 
     int Have; //所持コイン
-    int Rand; //乱数
+    int Rand; //乱数用変数
+    double Rpro;
+    double SRpro;
+    double SSRpro;
     
     // Start is called before the first frame update
     void Start()
@@ -36,7 +42,9 @@ public class GachaScript : MonoBehaviour
         imageLoadR();
         imageLoadSR();
         imageLoadSSR();
-        Have = 90;
+        ProLoad();
+        PList.text += "SSR : " + proList[0, 0] + "%" + "\n" + " SR : " + proList[1, 0] + "%" + "\n" + "  R : " + proList[2, 0] + "%";
+        Have = 90;//テスト用初期コイン
         UserCoin.text = Have.ToString() + "G";
     }
 
@@ -63,7 +71,7 @@ public class GachaScript : MonoBehaviour
             for (int n = 0; n < columnLength; n++)
             {
                 RList[i, n] = tempWords[n]; //2次配列textWordsにカンマごとに分けたtempWordsを代入していく
-                Debug.Log(i.ToString() + "," + n.ToString() + RList[i, n]);
+                Debug.Log(i.ToString() + "," + n.ToString() +","+ RList[i, n]);
             }
         }
 
@@ -91,7 +99,7 @@ public class GachaScript : MonoBehaviour
             for (int n = 0; n < columnLength; n++)
             {
                 SRList[i, n] = tempWords[n]; //2次配列textWordsにカンマごとに分けたtempWordsを代入していく
-                Debug.Log(i.ToString() + "," + n.ToString() + SRList[i, n]);
+                Debug.Log(i.ToString() + "," + n.ToString() +","+ SRList[i, n]);
             }
         }
     }
@@ -118,9 +126,44 @@ public class GachaScript : MonoBehaviour
             for (int n = 0; n < columnLength; n++)
             {
                 SSRList[i, n] = tempWords[n]; //2次配列textWordsにカンマごとに分けたtempWordsを代入していく
-                Debug.Log(i.ToString() + "," + n.ToString() + SSRList[i, n]);
+                Debug.Log(i.ToString() + "," + n.ToString() +","+ SSRList[i, n]);
             }
         }
+    }
+
+    public void ProLoad()
+    {
+        TextAsset textasset = new TextAsset(); //テキストファイルのデータを取得するインスタンスを作成
+        textasset = Resources.Load("Probability", typeof(TextAsset)) as TextAsset; //Resourcesフォルダから対象テキストを取得
+        string TextLines = textasset.text; //テキスト全体をstring型で入れる変数を用意して入れる
+
+        textMessage = TextLines.Split('\n');
+
+        //行数と列数を取得
+        columnLength = textMessage[0].Split('\t').Length;
+        rowLength = textMessage.Length;
+
+        //2次配列を定義
+        proList = new string[rowLength, columnLength];
+
+        for (int i = 0; i < rowLength; i++)
+        {
+
+            string[] tempWords = textMessage[i].Split('\t'); //textMessageをカンマごとに分けたものを一時的にtempWordsに代入
+
+            for (int n = 0; n < columnLength; n++)
+            {
+                proList[i, n] = tempWords[n]; //2次配列textWordsにカンマごとに分けたtempWordsを代入していく
+                Debug.Log(i.ToString() + "," + n.ToString() +","+ proList[i, n]);
+            }
+        }
+        SSRpro = double.Parse(proList[0,0]);
+        Debug.Log(SSRpro);
+        SRpro = double.Parse(proList[1,0]);
+        Debug.Log(SRpro);
+        Rpro = double.Parse(proList[2, 0]);
+        Debug.Log(Rpro);
+
     }
 
 
@@ -147,6 +190,27 @@ public class GachaScript : MonoBehaviour
         if(PopPro.activeSelf == true || PopCoin.activeSelf == true)
         {
             return;
+        }
+        GList.text = "----SSR----" + "\n";
+        for (int i = 0; i < 2 ; i++) {
+            GList.text += SSRList[i,1];
+            GList.text += "   ";
+            if(i%2 == 1) GList.text += "\n";
+
+        }
+        GList.text += "-----SR----" + "\n";
+        for (int i = 0; i < 5 ; i++)
+        {
+            GList.text += SRList[i, 1];
+            GList.text += "   ";
+            if (i % 2 == 1) GList.text += "\n";
+        }
+        GList.text += "\n" + "------R----" + "\n";
+        for (int i = 0; i < 27 ; i++)
+        {
+            GList.text += RList[i, 1];
+            GList.text += "   ";
+            if (i % 2 == 1) GList.text += "\n";
         }
         Debug.Log("Click-LIST");
         PopList.SetActive(true);
@@ -177,8 +241,10 @@ public class GachaScript : MonoBehaviour
         Have -= 100;
         UserCoin.text = Have.ToString() + "G";
         Rand = Random.Range(1, 1000);
+        Debug.Log("Rand = "+Rand);
         PopResult.SetActive(true);
-        if(Rand <= 5)
+        ResultImage.SetActive(true);
+        if(Rand <= SSRpro*10)
         {
             Rand = Random.Range(0, 1);
             Debug.Log("Images/" + SSRList[Rand, 2] + "を読み込み");
@@ -186,7 +252,7 @@ public class GachaScript : MonoBehaviour
             ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
             GachaResult.text = "1 :   SSR :" + SSRList[Rand, 1];
         }
-        else if (Rand > 5 && Rand <= 55)
+        else if (Rand > SSRpro*10 && Rand <= (SRpro+SRpro)*10)
         {
             Rand = Random.Range(0, 1);
             Debug.Log("Images/" + SRList[Rand, 2] + "を読み込み");
@@ -222,29 +288,34 @@ public class GachaScript : MonoBehaviour
         for (int i = 1 ; i < 10; i++)
         {
             Rand = Random.Range(1, 1000);
-            GachaResult.text += ( "\n" + i.ToString() + " : ");
-            if (Rand <= 5)
+            Debug.Log("Rand = " + Rand);
+            if (Rand <= SSRpro*10)
             {
-                GachaResult.text += "SSR";
+                Rand = Random.Range(0, 2);
+                GachaResult.text += "\n" + i.ToString() + " : SSR :" + SSRList[Rand, 1];
             }
-            else if (Rand > 5 && Rand <= 55)
+            else if (Rand > SSRpro*10 && Rand <= (SSRpro+SRpro)*10)
             {
-                GachaResult.text += " SR";
+                Rand = Random.Range(0, 5);
+                GachaResult.text += "\n" + i.ToString() + " :  SR :" + SRList[Rand, 1];
             }
             else
             {
-                GachaResult.text += "  R";
+                Rand = Random.Range(0, 26);
+                GachaResult.text += "\n" + i.ToString() + " :  R :" + RList[Rand, 1];
             }
         }
         Rand = Random.Range(0,1000);
-        GachaResult.text += ("\n" + "10" + " : ");
-        if (Rand <= 5)
+        Debug.Log("Rand = " + Rand);
+        if (Rand <= SSRpro*10)
         {
-            GachaResult.text += "SSR";
+            Rand = Random.Range(0, 2);
+            GachaResult.text += "\n" + "10" + " : SSR :" + SSRList[Rand, 1];
         }
         else
         {
-            GachaResult.text += " SR";
+            Rand = Random.Range(0, 5);
+            GachaResult.text += "\n" + "10" + " :  SR :" + SRList[Rand, 1];
         }
         PopResult.SetActive(true);
         
@@ -262,39 +333,40 @@ public class GachaScript : MonoBehaviour
         CoinB.SetActive(true);
     }
 
-    public void PopList_Close()
+    public void PopList_Close()//リストpop閉じる
     {
         Debug.Log("Close_PopList");
         PopList.SetActive(false);
     }
 
-    public void POPPro_Close()
+    public void POPPro_Close()//確立pop閉じる
     {
         Debug.Log("Close_PopProbability");
         PopPro.SetActive(false);
     }
-    public void POPError_Close()
+    public void POPError_Close()//Error用Pop閉じる
     {
         Debug.Log("Error_Close");
         ErrorMessage.SetActive(false);
     }
-    public void G()
+    public void G()//テスト用コイン増殖
     {
         Debug.Log("コイン増殖");
         Have += 1000;
         UserCoin.text = Have.ToString() + "G";
     }
-    public void G_Jet_Pro()
+    public void G_Jet_Pro()//テスト用コイン消滅
     {
         Debug.Log("コイン消滅");
         Have = 0;
         UserCoin.text = Have.ToString() + "G";
     }
 
-    public void POPResult_Close()
+    public void POPResult_Close()//ガチャ結果閉じる
     {
         Debug.Log("Close_Popresult");
         PopResult.SetActive(false);
+        ResultImage.SetActive(false);
         GachaResult.text = null;
     }
 }

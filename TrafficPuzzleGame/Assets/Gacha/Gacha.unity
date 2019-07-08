@@ -729,8 +729,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -15}
-  m_SizeDelta: {x: 302, y: 245}
+  m_AnchoredPosition: {x: 0, y: -14.999}
+  m_SizeDelta: {x: 302, y: 477}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &231062553
 MonoBehaviour:
@@ -745,7 +745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.08232466, g: 0.08232466, b: 0.09433961, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -759,14 +759,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "SSR : \u30B9\u30E9\u30A4\u30E0\nSR   : \u308A\u3085\u3046\u304A\u3046\nR
-    \    :  \u304B\u307F\u3055\u307E\nN     :  \u30E0\u30C9\u30FC"
+  m_Text: 
 --- !u!222 &231062554
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1023,8 +1022,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 111.95}
-  m_SizeDelta: {x: 0, y: -223.91}
+  m_AnchoredPosition: {x: 0, y: 14.997}
+  m_SizeDelta: {x: 0, y: -30.005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &325656027
 MonoBehaviour:
@@ -1039,7 +1038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.9622642, g: 0.92141336, b: 0.92141336, a: 0.8117647}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1323,7 +1322,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 136, y: 141.54}
+  m_AnchoredPosition: {x: 136, y: 238.5}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &442071320
@@ -1611,7 +1610,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -15, y: 141.54}
+  m_AnchoredPosition: {x: -15, y: 238.5}
   m_SizeDelta: {x: 272, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &461490643
@@ -1627,7 +1626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.9716981, g: 0.12375401, b: 0.12375401, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3315,7 +3314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1399982106
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3858,17 +3857,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'SSR : 0.5%
-
-    SR   : 5.0%
-
-    R     : 94.5%'
+  m_Text: 
 --- !u!222 &1820417288
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3916,6 +3911,8 @@ MonoBehaviour:
   UserCoin: {fileID: 2048635014}
   UserCoin2: {fileID: 255946094}
   GachaResult: {fileID: 1944309691}
+  GList: {fileID: 231062553}
+  PList: {fileID: 1820417287}
   textMessage: []
 --- !u!4 &1875152743
 Transform:
