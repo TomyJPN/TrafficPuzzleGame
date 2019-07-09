@@ -163,7 +163,7 @@ public class GachaScript : MonoBehaviour {
     PopResult.SetActive(true);
     ResultImage.SetActive(true);
     if (Rand <= SSRpro * 10) {
-      Rand = Random.Range(0, SSRL - 1);
+      Rand = Random.Range(0, SSRL);
       Debug.Log("Images/" + SSRList[Rand, 2] + "を読み込み");
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
       ResultImage.GetComponent<Image>().sprite = null;
@@ -171,7 +171,7 @@ public class GachaScript : MonoBehaviour {
       GachaResult.text = "1 :   SSR :" + SSRList[Rand, 1];
     }
     else if (Rand > SSRpro * 10 && Rand <= (SRpro + SRpro) * 10) {
-      Rand = Random.Range(0, SRL - 1);
+      Rand = Random.Range(0, SRL);
       Debug.Log("Images/" + SRList[Rand, 2] + "を読み込み");
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
       ResultImage.GetComponent<Image>().sprite = null;
@@ -179,7 +179,7 @@ public class GachaScript : MonoBehaviour {
       GachaResult.text = "1 :   SR :" + SRList[Rand, 1];
     }
     else {
-      Rand = Random.Range(0, RL - 1);
+      Rand = Random.Range(0, RL);
       Debug.Log("Images/" + RList[Rand, 2] + "を読み込み");
       ResultImageSprite = Resources.Load<Sprite>("Images/" + RList[Rand, 2]);
       ResultImage.GetComponent<Image>().sprite = null;
@@ -206,21 +206,21 @@ public class GachaScript : MonoBehaviour {
       Rand = Random.Range(1, 1000);
       Debug.Log("Rand = " + Rand);
       if (Rand <= SSRpro * 10) {
-        Rand = Random.Range(0, SSRL - 1);
+        Rand = Random.Range(0, SSRL);
         Debug.Log("Images/" + SSRList[Rand, 2] + "を読み込み");
         ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
       }
       else if (Rand > SSRpro * 10 && Rand <= (SSRpro + SRpro) * 10) {
-        Rand = Random.Range(0, SRL - 1);
+        Rand = Random.Range(0, SRL);
         Debug.Log("Images/" + SRList[Rand, 2] + "を読み込み");
         ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
       }
       else {
-        Rand = Random.Range(0, RL - 1);
+        Rand = Random.Range(0, RL);
         Debug.Log("Images/" + RList[Rand, 2] + "を読み込み");
         ResultImageSprite = Resources.Load<Sprite>("Images/" + RList[Rand, 2]);
         ResultImages[i].GetComponent<Image>().sprite = null;
@@ -230,14 +230,14 @@ public class GachaScript : MonoBehaviour {
     Rand = Random.Range(0, 1000);
     Debug.Log("Rand = " + Rand);
     if (Rand <= SSRpro * 10) {
-      Rand = Random.Range(0, SSRL - 1);
+      Rand = Random.Range(0, SSRL);
       Debug.Log("Images/" + SSRList[Rand, 2] + "を読み込み");
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
       ResultImages[9].GetComponent<Image>().sprite = null;
       ResultImages[9].GetComponent<Image>().sprite = ResultImageSprite;
     }
     else {
-      Rand = Random.Range(0, SRL - 1);
+      Rand = Random.Range(0, SRL);
       Debug.Log("Images/" + SRList[Rand, 2] + "を読み込み");
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
       ResultImages[9].GetComponent<Image>().sprite = null;

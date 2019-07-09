@@ -37,28 +37,33 @@ public class Manager : SingletonMonoBehaviour<Manager> {
     }
 
     DontDestroyOnLoad(this.gameObject);
-  }
+
+        imageLoadR();
+        imageLoadSR();
+        imageLoadSSR();
+
+        coinNum = 10000;  //とりあえず
+        excangeTicket = 0;
+
+        isRItemHaveList = new List<bool>();
+        for (int i = 0; i < RL; i++)
+        {
+            isRItemHaveList.Add(false);
+        }
+        isSRItemHaveList = new List<bool>();
+        for (int i = 0; i < SRL; i++)
+        {
+            isSRItemHaveList.Add(false);
+        }
+        isSSRItemHaveList = new List<bool>();
+        for (int i = 0; i < SSRL; i++)
+        {
+            isSSRItemHaveList.Add(false);
+        }
+    }
 
   void Start() {
-    imageLoadR();
-    imageLoadSR();
-    imageLoadSSR();
 
-    coinNum = 10000;  //とりあえず
-    excangeTicket = 0;
-
-    isRItemHaveList = new List<bool>();
-    for(int i = 0; i < RL; i++) {
-      isRItemHaveList.Add(false);
-    }
-    isSRItemHaveList = new List<bool>();
-    for (int i = 0; i < SRL; i++) {
-      isSRItemHaveList.Add(false);
-    }
-    isSSRItemHaveList = new List<bool>();
-    for (int i = 0; i < SSRL; i++) {
-      isSSRItemHaveList.Add(false);
-    }
   }
   /// <summary>
   /// レアリストの二次元配列を返します
