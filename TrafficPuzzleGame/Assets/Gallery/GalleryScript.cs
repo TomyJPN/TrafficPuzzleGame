@@ -53,9 +53,6 @@ public class GalleryScript : MonoBehaviour
         Debug.Log("[ギャラリー] SRL : " + SRL);
         SSRL = SSRList.GetLength(0);
         Debug.Log("[ギャラリー]SSRL : " + SSRL);
-
-        isSSRItemHaveList[0] = true;
-        ET = 10000;
         Write();
         
     }
