@@ -20,4 +20,8 @@ public class Title : MonoBehaviour
   public void loadGachaScene() {
     SceneManager.LoadScene("Gacha");
   }
+
+  public void loadGallaryScene() {
+    SceneManager.LoadScene("Gallery");
+  }
 }
