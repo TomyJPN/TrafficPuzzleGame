@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Gacha/Gacha.unity
     guid: e374467eae90cd34599e6dd01432b217
+  - enabled: 1
+    path: Assets/Gallery/Gallery.unity
+    guid: cf8a730801a6a514c83ff666e1f6cce6
   m_configObjects: {}
