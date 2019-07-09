@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GalleryScript : MonoBehaviour
 {
@@ -27,7 +28,9 @@ public class GalleryScript : MonoBehaviour
     public Text Exchange;
     private int Price;
     private int DNum;
+    private int ET;//交換チケット枚数
     public GameObject Trading;
+    public GameObject Pause;
 
     private Sprite Sprite;//画像読み込み用sprite
 
@@ -42,6 +45,7 @@ public class GalleryScript : MonoBehaviour
         isSRItemHaveList = Manager.Instance.getIsSRItemHaveList();
         isSSRItemHaveList = Manager.Instance.getIsSSRItemHaveList();
         Ticket.text = Manager.Instance.getExcangeTicket().ToString() + "枚";
+        ET = Manager.Instance.getExcangeTicket();
 
         RL = RList.GetLength(0);
         Debug.Log("[ギャラリー]  RL : " + RL);
@@ -51,7 +55,13 @@ public class GalleryScript : MonoBehaviour
         Debug.Log("[ギャラリー]SSRL : " + SSRL);
 
         isSSRItemHaveList[0] = true;
+        ET = 10000;
+        Write();
+        
+    }
 
+    public void Write()
+    {
         for (int i = 0; i < SSRL; i++)
         {
             GameObject item = Instantiate(IconPrefab);
@@ -60,14 +70,14 @@ public class GalleryScript : MonoBehaviour
             item.GetComponent<IconScript>().No = i;
             Debug.Log("No. " + item.GetComponent<IconScript>().No);
             item.GetComponent<IconScript>().Rarity = 0;
+            item.GetComponent<IconScript>().SkinName = SSRList[i, 1];
+            item.GetComponent<IconScript>().FileName = SSRList[i, 2];
             if (isSSRItemHaveList[i] == true)
             {
                 Debug.Log("[ギャラリー]Images/" + SSRList[i, 2] + "を読み込み");
                 Sprite = Resources.Load<Sprite>("Images/" + SSRList[i, 2]);
                 item.GetComponent<Image>().sprite = null;
                 item.GetComponent<Image>().sprite = Sprite;
-                item.GetComponent<IconScript>().SkinName = SSRList[i, 1];
-                item.GetComponent<IconScript>().FileName = SSRList[i, 2];
             }
 
         }
@@ -79,14 +89,14 @@ public class GalleryScript : MonoBehaviour
             item.GetComponent<IconScript>().No = i;
             Debug.Log("No. " + item.GetComponent<IconScript>().No);
             item.GetComponent<IconScript>().Rarity = 1;
+            item.GetComponent<IconScript>().SkinName = SRList[i, 1];
+            item.GetComponent<IconScript>().FileName = SRList[i, 2];
             if (isSRItemHaveList[i] == true)
             {
                 Debug.Log("[ギャラリー]Images/" + SRList[i, 2] + "を読み込み");
                 Sprite = Resources.Load<Sprite>("Images/" + SRList[i, 2]);
                 item.GetComponent<Image>().sprite = null;
                 item.GetComponent<Image>().sprite = Sprite;
-                item.GetComponent<IconScript>().SkinName = SRList[i, 1];
-                item.GetComponent<IconScript>().FileName = SRList[i, 2];
             }
 
         }
@@ -98,14 +108,14 @@ public class GalleryScript : MonoBehaviour
             item.GetComponent<IconScript>().No = i;
             Debug.Log("No. " + item.GetComponent<IconScript>().No);
             item.GetComponent<IconScript>().Rarity = 2;
+            item.GetComponent<IconScript>().SkinName = RList[i, 1];
+            item.GetComponent<IconScript>().FileName = RList[i, 2];
             if (isRItemHaveList[i] == true)
             {
                 Debug.Log("[ギャラリー]Images/" + RList[i, 2] + "を読み込み");
                 Sprite = Resources.Load<Sprite>("Images/" + RList[i, 2]);
                 item.GetComponent<Image>().sprite = null;
                 item.GetComponent<Image>().sprite = Sprite;
-                item.GetComponent<IconScript>().SkinName = RList[i, 1];
-                item.GetComponent<IconScript>().FileName = RList[i, 2];
             }
 
         }
@@ -174,10 +184,24 @@ public class GalleryScript : MonoBehaviour
     public void onClickPause()
     {
         Debug.Log("Click : pause");
+        if (Pause.activeSelf == false) {
+            Pause.SetActive(true);
+        }
+        else
+        {
+            Pause.SetActive(false);
+        }
+    }
+
+    public void goHome()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 
     public void Details(string FileName, string SkinName, int Rarity ,int num)
     {
+        Trading.SetActive(false);
+        Debug.Log(FileName);
         if (Rarity == 0)
         {
             if (isSSRItemHaveList[num] == true)
@@ -231,7 +255,6 @@ public class GalleryScript : MonoBehaviour
         }
         Detail.SetActive(true);
         DNum = num;
-        
         Image.GetComponent<Image>().sprite = null;
         Image.GetComponent<Image>().sprite = Sprite;
         return;
@@ -245,6 +268,81 @@ public class GalleryScript : MonoBehaviour
 
     public void Trade()
     {
-        //チケット消費など
+        Debug.Log("購入手続き開始");
+        if (ScrollView[0].activeSelf == true)
+        {
+            if (isSSRItemHaveList[DNum] == true)
+            {
+                Debug.Log("購入済");
+                return;
+            }
+        }
+        else if (ScrollView[1].activeSelf == true)
+        {
+            if (isSRItemHaveList[DNum] == true)
+            {
+                Debug.Log("購入済");
+                return;
+            }
+        }
+        else
+        {
+            if (isRItemHaveList[DNum] == true)
+            {
+                Debug.Log("購入済");
+                return;
+            }
+        }
+        if (ET < Price) 
+        {
+            Debug.Log("チケット不足:所持枚数..." + ET);
+            return;
+        }
+        ET -= Price;
+        Debug.Log("支払い完了:所持枚数..." + ET);
+        Manager.Instance.setExcangeTicket(ET);
+        if (Price == 3000)
+        {
+            Manager.Instance.setIsSSRItemHave(DNum);
+            Debug.Log("SSRの" + DNum + "を所持済に");
+            Details(SSRList[DNum,2],SSRList[DNum,1],0,DNum);
+        }
+        else if (Price == 1000)
+        {
+            Manager.Instance.setIsSRItemHave(DNum);
+            Debug.Log("SRの" + DNum + "を所持済に");
+            Details(SRList[DNum, 2], SRList[DNum, 1], 1, DNum);
+        }
+        else
+        {
+            Manager.Instance.setIsRItemHave(DNum);
+            Debug.Log("Rの" + DNum + "を所持済に");
+            Details(RList[DNum, 2], RList[DNum, 1], 2, DNum);
+        }
+        ReLoad();
+        return;
+    }
+
+    void ReLoad()//リロード
+    {
+        isRItemHaveList = Manager.Instance.getIsRItemHaveList();
+        isSRItemHaveList = Manager.Instance.getIsSRItemHaveList();
+        isSSRItemHaveList = Manager.Instance.getIsSSRItemHaveList();
+        Ticket.text = Manager.Instance.getExcangeTicket().ToString() + "枚";
+        ET = Manager.Instance.getExcangeTicket();
+        Clear();
+        Write();
+        return;
+    }
+
+    void Clear()
+    {
+        for (int i = 0; i < ContentObject.Length; i++)
+        {
+            foreach(Transform childTransform in ContentObject[i].transform)
+            {
+                Destroy(childTransform.gameObject);
+            }
+        }
     }
 }
