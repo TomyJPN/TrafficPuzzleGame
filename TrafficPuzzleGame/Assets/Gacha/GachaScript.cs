@@ -250,7 +250,7 @@ public class GachaScript : MonoBehaviour {
 
   public void Pause()//ポーズ画面
   {
-    Debug.Log("Click-PAUSE");
+    SceneManager.LoadScene("TitleScene");
   }
 
   public void PopCoin_Close()//コイン所持数pop閉じる
