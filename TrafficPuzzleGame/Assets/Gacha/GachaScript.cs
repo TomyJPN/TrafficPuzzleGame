@@ -40,6 +40,11 @@ public class GachaScript : MonoBehaviour {
   double SRpro;//SRの確率管理
   double SSRpro;//SSRの確率管理
 
+  //ガチャ演出
+  public GameObject AnimeSSR;
+  public GameObject AnimeSR;
+  public GameObject AnimeR;
+
   // Start is called before the first frame update
   void Start() {
     RList = Manager.Instance.getRList();
@@ -148,6 +153,7 @@ public class GachaScript : MonoBehaviour {
 
   public void Once()//単発
   {
+    POPResult_Close();
     Debug.Log("Click-ONCE");
     if (PopList.activeSelf == true || PopCoin.activeSelf == true || PopPro.activeSelf == true) {
       return;
@@ -169,6 +175,8 @@ public class GachaScript : MonoBehaviour {
       ResultImage.GetComponent<Image>().sprite = null;
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
       GachaResult.text = "1 :   SSR :" + SSRList[Rand, 1];
+      AnimeSSR.SetActive(true);
+      Invoke("AnimeEnd", 3.5f);
     }
     else if (Rand > SSRpro * 10 && Rand <= (SRpro + SRpro) * 10) {
       Rand = Random.Range(0, SRL);
@@ -177,6 +185,8 @@ public class GachaScript : MonoBehaviour {
       ResultImage.GetComponent<Image>().sprite = null;
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
       GachaResult.text = "1 :   SR :" + SRList[Rand, 1];
+      AnimeSR.SetActive(true);
+      Invoke("AnimeEnd", 3.5f);
     }
     else {
       Rand = Random.Range(0, RL);
@@ -185,12 +195,16 @@ public class GachaScript : MonoBehaviour {
       ResultImage.GetComponent<Image>().sprite = null;
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
       GachaResult.text = "1 :   R :" + RList[Rand, 1];
+      AnimeR.SetActive(true);
+      Invoke("AnimeEnd", 3.5f);
     }
 
   }
 
   public void TenTimes()//10連
   {
+    int maxLank=2; //アニメーション演出用，最高レア度
+    POPResult_Close();
     Debug.Log("Click-TENS");
     if (PopList.activeSelf == true || PopCoin.activeSelf == true || PopPro.activeSelf == true) {
       return;
@@ -211,6 +225,7 @@ public class GachaScript : MonoBehaviour {
         ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
+        maxLank = 3;
       }
       else if (Rand > SSRpro * 10 && Rand <= (SSRpro + SRpro) * 10) {
         Rand = Random.Range(0, SRL);
@@ -246,6 +261,14 @@ public class GachaScript : MonoBehaviour {
     PopResult.SetActive(true);
     PopResults.SetActive(true);
 
+    //アニメーション演出
+    if (maxLank == 3) {
+      AnimeSSR.SetActive(true);
+    }
+    else {
+      AnimeSR.SetActive(true);
+    }
+    Invoke("AnimeEnd", 3.5f);
   }
 
   public void Pause()//ポーズ画面
@@ -296,5 +319,11 @@ public class GachaScript : MonoBehaviour {
     if (ResultImage.activeSelf == true) ResultImage.SetActive(false);
     if (PopResults.activeSelf == true) PopResults.SetActive(false);
     GachaResult.text = null;
+  }
+  //ガチャ演出終了動作
+  void AnimeEnd() {
+    AnimeSSR.SetActive(false);
+    AnimeSR.SetActive(false);
+    AnimeR.SetActive(false);
   }
 }
