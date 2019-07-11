@@ -36,9 +36,14 @@ public class GachaScript : MonoBehaviour {
   int RL;//Rの個数
   int SRL;//SRの個数
   int SSRL;//SSrの個数
+  int Ticket;
   double Rpro;//Rの確率管理
   double SRpro;//SRの確率管理
   double SSRpro;//SSRの確率管理
+  public List<bool> isRItemHaveList;
+  public List<bool> isSRItemHaveList;
+  public List<bool> isSSRItemHaveList;
+
 
   //ガチャ演出
   public GameObject AnimeSSR;
@@ -50,6 +55,10 @@ public class GachaScript : MonoBehaviour {
     RList = Manager.Instance.getRList();
     SRList = Manager.Instance.getSRList();
     SSRList = Manager.Instance.getSSRList();
+    isRItemHaveList = Manager.Instance.getIsRItemHaveList();
+    isSRItemHaveList = Manager.Instance.getIsSRItemHaveList();
+    isSSRItemHaveList = Manager.Instance.getIsSSRItemHaveList();
+    Ticket = Manager.Instance.getExcangeTicket();
     RL = RList.GetLength(0);
     Debug.Log("RL:" + RL);
     SRL = SRList.GetLength(0);
@@ -177,6 +186,7 @@ public class GachaScript : MonoBehaviour {
       GachaResult.text = "1 :   SSR :" + SSRList[Rand, 1];
       AnimeSSR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
+      SSRItemCheck(Rand);
     }
     else if (Rand > SSRpro * 10 && Rand <= (SRpro + SRpro) * 10) {
       Rand = Random.Range(0, SRL);
@@ -187,6 +197,7 @@ public class GachaScript : MonoBehaviour {
       GachaResult.text = "1 :   SR :" + SRList[Rand, 1];
       AnimeSR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
+      SRItemCheck(Rand);
     }
     else {
       Rand = Random.Range(0, RL);
@@ -197,6 +208,7 @@ public class GachaScript : MonoBehaviour {
       GachaResult.text = "1 :   R :" + RList[Rand, 1];
       AnimeR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
+      RItemCheck(Rand);
     }
 
   }
@@ -226,6 +238,7 @@ public class GachaScript : MonoBehaviour {
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
         maxLank = 3;
+        SSRItemCheck(Rand);
       }
       else if (Rand > SSRpro * 10 && Rand <= (SSRpro + SRpro) * 10) {
         Rand = Random.Range(0, SRL);
@@ -233,6 +246,7 @@ public class GachaScript : MonoBehaviour {
         ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
+        SRItemCheck(Rand);
       }
       else {
         Rand = Random.Range(0, RL);
@@ -240,6 +254,7 @@ public class GachaScript : MonoBehaviour {
         ResultImageSprite = Resources.Load<Sprite>("Images/" + RList[Rand, 2]);
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
+        RItemCheck(Rand);
       }
     }
     Rand = Random.Range(0, 1000);
@@ -250,6 +265,7 @@ public class GachaScript : MonoBehaviour {
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
       ResultImages[9].GetComponent<Image>().sprite = null;
       ResultImages[9].GetComponent<Image>().sprite = ResultImageSprite;
+      SRItemCheck(Rand);
     }
     else {
       Rand = Random.Range(0, SRL);
@@ -257,6 +273,7 @@ public class GachaScript : MonoBehaviour {
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
       ResultImages[9].GetComponent<Image>().sprite = null;
       ResultImages[9].GetComponent<Image>().sprite = ResultImageSprite;
+      SRItemCheck(Rand);
     }
     PopResult.SetActive(true);
     PopResults.SetActive(true);
@@ -326,4 +343,65 @@ public class GachaScript : MonoBehaviour {
     AnimeSR.SetActive(false);
     AnimeR.SetActive(false);
   }
+  void RItemCheck(int num)
+  {
+        if (isRItemHaveList[num] == false)
+        {
+            Manager.Instance.setIsRItemHave(num);
+            Debug.Log("R : "+num+" をゲット");
+            ReLoad();
+        }
+        else
+        {
+            Ticket += 10;
+            Manager.Instance.setExcangeTicket(Ticket);
+            Ticket = Manager.Instance.getExcangeTicket();
+            Debug.Log(num + "が重複");
+            Debug.Log("交換券所持枚数 : " + Ticket + "枚");
+        }
+    
+  }
+    void SRItemCheck(int num)
+    {
+        if (isSRItemHaveList[num] == false)
+        {
+            Manager.Instance.setIsSRItemHave(num);
+            Debug.Log("SR : " + num + " をゲット");
+            ReLoad();
+        }
+        else
+        {
+            Ticket += 50;
+            Manager.Instance.setExcangeTicket(Ticket);
+            Ticket = Manager.Instance.getExcangeTicket();
+            Debug.Log(num + "が重複");
+            Debug.Log("交換券所持枚数 : " + Ticket + "枚");
+        }
+
+    }
+    void SSRItemCheck(int num)
+    {
+        if (isSSRItemHaveList[num] == false)
+        {
+            Manager.Instance.setIsSSRItemHave(num);
+            Debug.Log("SSR : " + num + " をゲット");
+            ReLoad();
+        }
+        else
+        {
+            Ticket += 100;
+            Manager.Instance.setExcangeTicket(Ticket);
+            Ticket = Manager.Instance.getExcangeTicket();
+            Debug.Log(num + "が重複");
+            Debug.Log("交換券所持枚数 : " + Ticket + "枚");
+        }
+
+    }
+    void ReLoad()
+    {
+        isRItemHaveList = Manager.Instance.getIsRItemHaveList();
+        isSRItemHaveList = Manager.Instance.getIsSRItemHaveList();
+        isSSRItemHaveList = Manager.Instance.getIsSSRItemHaveList();
+    }
+
 }
