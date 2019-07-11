@@ -18,7 +18,7 @@ public class GachaScript : MonoBehaviour {
 
   public Text UserCoin; //常在コイン数表示用テキスト
   public Text UserCoin2; //コイン数詳細表示用テキスト
-  public Text GachaResult; //ガチャ結果表示(仮)
+  public Text GachaResult; //獲得交換券を表示
   public Text GList; //リスト画面表示用
   public Text PList; //提供割合表示
 
@@ -37,6 +37,7 @@ public class GachaScript : MonoBehaviour {
   int SRL;//SRの個数
   int SSRL;//SSrの個数
   int Ticket;
+  int TicketSum;
   double Rpro;//Rの確率管理
   double SRpro;//SRの確率管理
   double SSRpro;//SSRの確率管理
@@ -162,6 +163,7 @@ public class GachaScript : MonoBehaviour {
 
   public void Once()//単発
   {
+    TicketSum = 0;
     POPResult_Close();
     Debug.Log("Click-ONCE");
     if (PopList.activeSelf == true || PopCoin.activeSelf == true || PopPro.activeSelf == true) {
@@ -183,7 +185,6 @@ public class GachaScript : MonoBehaviour {
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
       ResultImage.GetComponent<Image>().sprite = null;
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
-      GachaResult.text = "1 :   SSR :" + SSRList[Rand, 1];
       AnimeSSR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
       SSRItemCheck(Rand);
@@ -194,7 +195,6 @@ public class GachaScript : MonoBehaviour {
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
       ResultImage.GetComponent<Image>().sprite = null;
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
-      GachaResult.text = "1 :   SR :" + SRList[Rand, 1];
       AnimeSR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
       SRItemCheck(Rand);
@@ -205,13 +205,17 @@ public class GachaScript : MonoBehaviour {
       ResultImageSprite = Resources.Load<Sprite>("Images/" + RList[Rand, 2]);
       ResultImage.GetComponent<Image>().sprite = null;
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
-      GachaResult.text = "1 :   R :" + RList[Rand, 1];
       AnimeR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
       RItemCheck(Rand);
     }
-
-  }
+    Ticket += TicketSum;
+    Manager.Instance.setExcangeTicket(Ticket);
+    Ticket = Manager.Instance.getExcangeTicket();
+    Debug.Log("交換券所持枚数 : " + Ticket + "枚");
+    Debug.Log("今回の獲得枚数 : " + TicketSum + "枚");
+    GachaResult.text = "獲得交換券 : " + TicketSum;
+    }
 
   public void TenTimes()//10連
   {
@@ -286,7 +290,14 @@ public class GachaScript : MonoBehaviour {
       AnimeSR.SetActive(true);
     }
     Invoke("AnimeEnd", 3.5f);
-  }
+
+    Ticket += TicketSum;
+    Manager.Instance.setExcangeTicket(Ticket);
+    Ticket = Manager.Instance.getExcangeTicket();
+    Debug.Log("交換券所持枚数 : " + Ticket + "枚");
+    Debug.Log("今回の獲得枚数 : " + TicketSum + "枚");
+    GachaResult.text = "獲得交換券 : " + TicketSum;
+    }
 
   public void Pause()//ポーズ画面
   {
@@ -353,11 +364,8 @@ public class GachaScript : MonoBehaviour {
         }
         else
         {
-            Ticket += 10;
-            Manager.Instance.setExcangeTicket(Ticket);
-            Ticket = Manager.Instance.getExcangeTicket();
+            TicketSum += 10;
             Debug.Log(num + "が重複");
-            Debug.Log("交換券所持枚数 : " + Ticket + "枚");
         }
     
   }
@@ -371,11 +379,8 @@ public class GachaScript : MonoBehaviour {
         }
         else
         {
-            Ticket += 50;
-            Manager.Instance.setExcangeTicket(Ticket);
-            Ticket = Manager.Instance.getExcangeTicket();
+            TicketSum += 50;
             Debug.Log(num + "が重複");
-            Debug.Log("交換券所持枚数 : " + Ticket + "枚");
         }
 
     }
@@ -389,11 +394,8 @@ public class GachaScript : MonoBehaviour {
         }
         else
         {
-            Ticket += 100;
-            Manager.Instance.setExcangeTicket(Ticket);
-            Ticket = Manager.Instance.getExcangeTicket();
+            TicketSum += 100;
             Debug.Log(num + "が重複");
-            Debug.Log("交換券所持枚数 : " + Ticket + "枚");
         }
 
     }
