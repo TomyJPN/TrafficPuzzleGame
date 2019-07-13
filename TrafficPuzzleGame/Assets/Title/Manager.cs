@@ -30,6 +30,23 @@ public class Manager : SingletonMonoBehaviour<Manager> {
   int SRL;//SRの個数
   int SSRL;//SSrの個数
 
+  Skin nowSkin;
+
+  class Skin {
+    /// <summary>
+    /// スキン名
+    /// </summary>
+    public string name = "";
+    /// <summary>
+    /// レア度（R=0,SR=1,SSR=2）
+    /// </summary>
+    public int rank;
+    /// <summary>
+    /// リストの番号
+    /// </summary>
+    public int num;
+  }
+
   public void Awake() {
     if (this != Instance) {
       Destroy(this);
@@ -63,7 +80,9 @@ public class Manager : SingletonMonoBehaviour<Manager> {
     }
 
   void Start() {
-
+    nowSkin = new Skin();
+    nowSkin.name = "";
+    nowSkin.rank = 0;
   }
   /// <summary>
   /// レアリストの二次元配列を返します
