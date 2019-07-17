@@ -11,9 +11,11 @@ public class GachaScript : MonoBehaviour {
   public GameObject PopPro; //排出確立用ポップアップ
   public GameObject ErrorMessage; //コイン不足エラーメッセージ
   public GameObject PopResult; //ガチャ結果ポップアップ単発
+  public GameObject New;
   public GameObject PopResults; //10連用結果画面
   public GameObject ResultImage; //ガチャ画像
   public GameObject[] ResultImages; //10連
+  public GameObject[] NewImage;
   private Sprite ResultImageSprite;
 
   public Text UserCoin; //常在コイン数表示用テキスト
@@ -187,7 +189,7 @@ public class GachaScript : MonoBehaviour {
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
       AnimeSSR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
-      SSRItemCheck(Rand);
+      SSRItemCheck(Rand,1, 11);
     }
     else if (Rand > SSRpro * 10 && Rand <= (SRpro + SRpro) * 10) {
       Rand = Random.Range(0, SRL);
@@ -197,7 +199,7 @@ public class GachaScript : MonoBehaviour {
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
       AnimeSR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
-      SRItemCheck(Rand);
+      SRItemCheck(Rand,1, 11);
     }
     else {
       Rand = Random.Range(0, RL);
@@ -207,7 +209,7 @@ public class GachaScript : MonoBehaviour {
       ResultImage.GetComponent<Image>().sprite = ResultImageSprite;
       AnimeR.SetActive(true);
       Invoke("AnimeEnd", 3.5f);
-      RItemCheck(Rand);
+      RItemCheck(Rand,1 , 11);
     }
     Ticket += TicketSum;
     Manager.Instance.setExcangeTicket(Ticket);
@@ -242,7 +244,7 @@ public class GachaScript : MonoBehaviour {
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
         maxLank = 3;
-        SSRItemCheck(Rand);
+        SSRItemCheck(Rand,10, i);
       }
       else if (Rand > SSRpro * 10 && Rand <= (SSRpro + SRpro) * 10) {
         Rand = Random.Range(0, SRL);
@@ -250,7 +252,7 @@ public class GachaScript : MonoBehaviour {
         ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
-        SRItemCheck(Rand);
+        SRItemCheck(Rand,10, i);
       }
       else {
         Rand = Random.Range(0, RL);
@@ -258,7 +260,7 @@ public class GachaScript : MonoBehaviour {
         ResultImageSprite = Resources.Load<Sprite>("Images/" + RList[Rand, 2]);
         ResultImages[i].GetComponent<Image>().sprite = null;
         ResultImages[i].GetComponent<Image>().sprite = ResultImageSprite;
-        RItemCheck(Rand);
+        RItemCheck(Rand,10, i);
       }
     }
     Rand = Random.Range(0, 1000);
@@ -269,7 +271,7 @@ public class GachaScript : MonoBehaviour {
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SSRList[Rand, 2]);
       ResultImages[9].GetComponent<Image>().sprite = null;
       ResultImages[9].GetComponent<Image>().sprite = ResultImageSprite;
-      SRItemCheck(Rand);
+      SRItemCheck(Rand,10, 9);
     }
     else {
       Rand = Random.Range(0, SRL);
@@ -277,7 +279,7 @@ public class GachaScript : MonoBehaviour {
       ResultImageSprite = Resources.Load<Sprite>("Images/" + SRList[Rand, 2]);
       ResultImages[9].GetComponent<Image>().sprite = null;
       ResultImages[9].GetComponent<Image>().sprite = ResultImageSprite;
-      SRItemCheck(Rand);
+      SRItemCheck(Rand,10, 9);
     }
     PopResult.SetActive(true);
     PopResults.SetActive(true);
@@ -347,6 +349,11 @@ public class GachaScript : MonoBehaviour {
     if (ResultImage.activeSelf == true) ResultImage.SetActive(false);
     if (PopResults.activeSelf == true) PopResults.SetActive(false);
     GachaResult.text = null;
+        for (int i = 0;i < 10; i++)
+        {
+            NewImage[i].SetActive(false);
+        }
+    New.SetActive(false);
   }
   //ガチャ演出終了動作
   void AnimeEnd() {
@@ -354,12 +361,22 @@ public class GachaScript : MonoBehaviour {
     AnimeSR.SetActive(false);
     AnimeR.SetActive(false);
   }
-  void RItemCheck(int num)
+  void RItemCheck(int num,int type,int ln)
   {
         if (isRItemHaveList[num] == false)
         {
             Manager.Instance.setIsRItemHave(num);
             Debug.Log("R : "+num+" をゲット");
+            if (type == 1)
+            {
+                New.SetActive(true);
+                Debug.Log("new" + "がtrue");
+            }
+            else
+            {
+                NewImage[ln].SetActive(true);
+                Debug.Log(ln + "がtrue");
+            }
             ReLoad();
         }
         else
@@ -369,12 +386,22 @@ public class GachaScript : MonoBehaviour {
         }
     
   }
-    void SRItemCheck(int num)
+    void SRItemCheck(int num ,int type, int ln)
     {
         if (isSRItemHaveList[num] == false)
         {
             Manager.Instance.setIsSRItemHave(num);
             Debug.Log("SR : " + num + " をゲット");
+            if (type == 1)
+            {
+                New.SetActive(true);
+                Debug.Log("new" + "がtrue");
+            }
+            else
+            {
+                NewImage[ln].SetActive(true);
+                Debug.Log(ln + "がtrue");
+            }
             ReLoad();
         }
         else
@@ -384,12 +411,21 @@ public class GachaScript : MonoBehaviour {
         }
 
     }
-    void SSRItemCheck(int num)
+    void SSRItemCheck(int num, int type, int ln)
     {
         if (isSSRItemHaveList[num] == false)
         {
             Manager.Instance.setIsSSRItemHave(num);
             Debug.Log("SSR : " + num + " をゲット");
+            if(type == 1){
+                New.SetActive(true);
+                Debug.Log("new" + "がtrue");
+            }
+            else
+            {
+                NewImage[ln].SetActive(true);
+                Debug.Log(ln + "がtrue");
+            }
             ReLoad();
         }
         else
