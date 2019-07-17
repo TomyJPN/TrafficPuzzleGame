@@ -217,11 +217,13 @@ public class GachaScript : MonoBehaviour {
     Debug.Log("交換券所持枚数 : " + Ticket + "枚");
     Debug.Log("今回の獲得枚数 : " + TicketSum + "枚");
     GachaResult.text = "獲得交換券 : " + TicketSum;
+    Manager.Instance.DataSave();
     }
 
   public void TenTimes()//10連
   {
     int maxLank=2; //アニメーション演出用，最高レア度
+    TicketSum = 0;
     POPResult_Close();
     Debug.Log("Click-TENS");
     if (PopList.activeSelf == true || PopCoin.activeSelf == true || PopPro.activeSelf == true) {
@@ -299,7 +301,8 @@ public class GachaScript : MonoBehaviour {
     Debug.Log("交換券所持枚数 : " + Ticket + "枚");
     Debug.Log("今回の獲得枚数 : " + TicketSum + "枚");
     GachaResult.text = "獲得交換券 : " + TicketSum;
-    }
+    Manager.Instance.DataSave();
+  }
 
   public void Pause()//ポーズ画面
   {

@@ -59,9 +59,6 @@ public class Manager : SingletonMonoBehaviour<Manager> {
         imageLoadSR();
         imageLoadSSR();
 
-        coinNum = 10000;  //とりあえず
-        excangeTicket = 0;
-
         isRItemHaveList = new List<bool>();
         for (int i = 0; i < RL; i++)
         {
@@ -77,6 +74,8 @@ public class Manager : SingletonMonoBehaviour<Manager> {
         {
             isSSRItemHaveList.Add(false);
         }
+
+    DataLoad();
     }
 
   void Start() {
@@ -248,6 +247,143 @@ public class Manager : SingletonMonoBehaviour<Manager> {
         SSRList[i, n] = tempWords[n]; //2次配列textWordsにカンマごとに分けたtempWordsを代入していく
         Debug.Log(i.ToString() + "," + n.ToString() + "," + SSRList[i, n]);
       }
+    }
+  }
+
+  /// <summary>
+  /// ゲームデータの保存用
+  /// </summary>
+  public void DataSave()
+  {
+    string HaveRList = null;
+    string HaveSRList = null;
+    string HaveSSRList = null;
+
+
+    for (int i = 0;i< isRItemHaveList.Count; i++)
+    {
+      if (isRItemHaveList[i] == true)
+      {
+        HaveRList += "1";
+      }
+      else
+      {
+        HaveRList += "0";
+      }
+    }
+
+    for (int i = 0; i < isSRItemHaveList.Count; i++)
+    {
+      if (isSRItemHaveList[i] == true)
+      {
+        HaveSRList += "1";
+      }
+      else
+      {
+        HaveSRList += "0";
+      }
+    }
+
+    for (int i = 0; i < isSSRItemHaveList.Count; i++)
+    {
+      if (isSSRItemHaveList[i] == true)
+      {
+        HaveSSRList += "1";
+      }
+      else
+      {
+        HaveSSRList += "0";
+      }
+    }
+    Debug.Log("[Save]RList:" + HaveRList);
+    Debug.Log("[Save]SRList:" + HaveSRList);
+    Debug.Log("[Save]SSRList:" + HaveSSRList);
+    PlayerPrefs.SetString("RList", HaveRList);
+    PlayerPrefs.SetString("SRList", HaveSRList);
+    PlayerPrefs.SetString("SSRList", HaveSSRList);
+    PlayerPrefs.SetInt("Ticket", excangeTicket);
+    PlayerPrefs.SetInt("Coin", coinNum);
+  }
+
+  /// <summary>
+  /// ゲームデータの読み込み用
+  /// </summary>
+  public void DataLoad()
+  {
+    string HaveRList = null;
+    string HaveSRList = null;
+    string HaveSSRList = null;
+
+    if (PlayerPrefs.HasKey("RList"))
+    {
+      Debug.Log("RのListを確認");
+      HaveRList = PlayerPrefs.GetString("RList");
+      for (int i = 0; i < isRItemHaveList.Count; i++)
+      {
+        Debug.Log(i.ToString());
+        if (HaveRList[i] == '1')
+        {
+          setIsRItemHave(i);
+          Debug.Log("有効化 R :" + i.ToString());
+        }
+      }
+    }
+    else
+    {
+      Debug.Log("RのListはありません");
+    }
+    if (PlayerPrefs.HasKey("SRList"))
+    {
+      Debug.Log("SRのListを確認");
+      HaveSRList = PlayerPrefs.GetString("SRList");
+      for (int i = 0; i < isSRItemHaveList.Count; i++)
+      {
+        if (HaveSRList[i] == '1')
+        {
+          setIsSRItemHave(i);
+        }
+      }
+    }
+    else
+    {
+      Debug.Log("SRのListはありません");
+    }
+    if (PlayerPrefs.HasKey("SSRList"))
+    {
+      Debug.Log("SSRのListを確認");
+      HaveSSRList = PlayerPrefs.GetString("SSRList");
+      for (int i = 0; i < isSSRItemHaveList.Count; i++)
+      {
+        if (HaveSSRList[i] == '1')
+        {
+          setIsSSRItemHave(i);
+        }
+      }
+    }
+    else
+    {
+      Debug.Log("SSRのListはありません");
+    }
+    if (PlayerPrefs.HasKey("Ticket"))
+    {
+      Debug.Log("TicketDataを確認");
+      setExcangeTicket(PlayerPrefs.GetInt("Ticket"));
+    }
+    else
+    {
+      Debug.Log("TicketDataはありません");
+      setExcangeTicket(0);
+
+    }
+    if (PlayerPrefs.HasKey("Coin"))
+    {
+      Debug.Log("CoinDataを確認");
+      setCoinNum(PlayerPrefs.GetInt("Coin"));
+    }
+    else
+    {
+      Debug.Log("CoinDataはありません");
+      setCoinNum(0);
     }
   }
 }

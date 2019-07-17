@@ -316,6 +316,7 @@ public class GalleryScript : MonoBehaviour
             Debug.Log("Rの" + DNum + "を所持済に");
             Details(RList[DNum, 2], RList[DNum, 1], 2, DNum);
         }
+        Manager.Instance.DataSave();
         ReLoad();
         return;
     }
