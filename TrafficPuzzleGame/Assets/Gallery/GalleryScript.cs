@@ -31,6 +31,7 @@ public class GalleryScript : MonoBehaviour
     private int ET;//交換チケット枚数
     public GameObject Trading;
     public GameObject Pause;
+    public GameObject SkinSet;
 
     private Sprite Sprite;//画像読み込み用sprite
 
@@ -197,7 +198,9 @@ public class GalleryScript : MonoBehaviour
 
     public void Details(string FileName, string SkinName, int Rarity ,int num)
     {
+    Manager.Skin CheckSkin = Manager.Instance.GetNowSkin();
         Trading.SetActive(false);
+        SkinSet.SetActive(false);
         Debug.Log(FileName);
         if (Rarity == 0)
         {
@@ -205,6 +208,10 @@ public class GalleryScript : MonoBehaviour
             {
                 SName.text = SkinName;
                 Sprite = Resources.Load<Sprite>("Images/" + FileName);
+                if (CheckSkin.num != num || CheckSkin.rank != 2)
+                {
+                   SkinSet.SetActive(true);
+                }
             }
             else
             {
@@ -214,6 +221,7 @@ public class GalleryScript : MonoBehaviour
                 Exchange.text = Price.ToString();
                 Exchange.text += "枚で交換";
                 Trading.SetActive(true);
+                SkinSet.SetActive(false);
             }
         }
         else if(Rarity == 1)
@@ -222,7 +230,11 @@ public class GalleryScript : MonoBehaviour
             {
                 SName.text = SkinName;
                 Sprite = Resources.Load<Sprite>("Images/" + FileName);
-            }
+        if (CheckSkin.num != num || CheckSkin.rank != 1)
+        {
+          SkinSet.SetActive(true);
+        }
+      }
             else
             {
                 SName.text = "?????";
@@ -231,6 +243,7 @@ public class GalleryScript : MonoBehaviour
                 Exchange.text = Price.ToString();
                 Exchange.text += "枚で交換";
                 Trading.SetActive(true);
+                SkinSet.SetActive(false);
             }
         }
         else
@@ -239,7 +252,11 @@ public class GalleryScript : MonoBehaviour
             {
                 SName.text = SkinName;
                 Sprite = Resources.Load<Sprite>("Images/" + FileName);
-            }
+        if (CheckSkin.num != num || CheckSkin.rank != 0)
+        {
+          SkinSet.SetActive(true);
+        }
+      }
             else
             {
                 SName.text = "?????";
@@ -248,10 +265,13 @@ public class GalleryScript : MonoBehaviour
                 Exchange.text = Price.ToString();
                 Exchange.text += "枚で交換";
                 Trading.SetActive(true);
+                SkinSet.SetActive(false);
             }
         }
         Detail.SetActive(true);
         DNum = num;
+    Debug.Log(DNum + "=" + num);
+    Debug.Log("rarity : " + Rarity);
         Image.GetComponent<Image>().sprite = null;
         Image.GetComponent<Image>().sprite = Sprite;
         return;
@@ -320,6 +340,63 @@ public class GalleryScript : MonoBehaviour
         ReLoad();
         return;
     }
+    
+  public void Set()
+  {
+    Manager.Skin Skin;
+    Debug.Log("スキンセット中");
+    Debug.Log("番号 :" + DNum);
+    Skin = Manager.Instance.GetNowSkin();
+    if (ScrollView[0].activeSelf == true)
+    {
+      if (DNum == Skin.num)
+      {
+        Debug.Log("セット済");
+        return;
+      }
+      else
+      {
+        Skin.num = DNum;
+        Skin.rank = 2;
+        Skin.name = SSRList[DNum, 1];
+        Debug.Log("SSR : " + Skin.name + " : " + Skin.num);
+        Details(SSRList[DNum, 2], SSRList[DNum, 1], 0, DNum);
+      }
+    }
+    else if (ScrollView[1].activeSelf == true)
+    {
+      if (DNum == Skin.num)
+      {
+        Debug.Log("セット済");
+        return;
+      }
+      else
+      {
+        Skin.num = DNum;
+        Skin.rank = 1;
+        Skin.name = SRList[DNum, 1];
+        Debug.Log("SR : " + Skin.name + " : " + Skin.num);
+        Details(SRList[DNum, 2], SRList[DNum, 1], 1, DNum);
+      }
+    }
+    else
+    {
+      if (DNum == Skin.num)
+      {
+        Debug.Log("セット済");
+        return;
+      }
+      else
+      {
+        Skin.num = DNum;
+        Skin.rank = 0;
+        Skin.name = RList[DNum, 1];
+        Debug.Log("R : " + Skin.name + " : " + Skin.num);
+        Details(RList[DNum, 2], RList[DNum, 1], 2, DNum);
+      }
+    }
+    Manager.Instance.SetNowSkin(Skin);
+  }
 
     void ReLoad()//リロード
     {

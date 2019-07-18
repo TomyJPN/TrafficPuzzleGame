@@ -32,7 +32,7 @@ public class Manager : SingletonMonoBehaviour<Manager> {
 
   Skin nowSkin;
 
-  class Skin {
+  public class Skin {
     /// <summary>
     /// スキン名
     /// </summary>
@@ -80,7 +80,7 @@ public class Manager : SingletonMonoBehaviour<Manager> {
 
   void Start() {
     nowSkin = new Skin();
-    nowSkin.name = "";
+    nowSkin.name = "オリジナル";
     nowSkin.rank = 0;
   }
   /// <summary>
@@ -385,5 +385,17 @@ public class Manager : SingletonMonoBehaviour<Manager> {
       Debug.Log("CoinDataはありません");
       setCoinNum(0);
     }
+  }
+
+  public Skin GetNowSkin()
+  {
+    return nowSkin;
+  }
+  public void SetNowSkin(Skin skin)
+  {
+    nowSkin = skin;
+    Debug.Log("スキンname : " + nowSkin.name);
+    Debug.Log("スキン番号 : " + nowSkin.num);
+    Debug.Log(" レア度" + nowSkin.rank);
   }
 }
