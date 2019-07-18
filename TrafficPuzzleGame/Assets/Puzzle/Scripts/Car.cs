@@ -35,4 +35,11 @@ public class Car : MonoBehaviour {
     //Vector2 CarDir = new Vector2(0, 1).normalized;      //テスト用
     GetComponent<Rigidbody2D>().velocity = CarDir * CarSpeed; //方向*速度を代入
   }
+
+  private void OnTriggerEnter2D(Collider2D collision) {
+    Debug.Log("衝突:" + collision.gameObject.name);
+    if (type == 1 && collision.gameObject.name == "goal") {
+      Debug.Log("クリア！");
+    }
+  }
 }
