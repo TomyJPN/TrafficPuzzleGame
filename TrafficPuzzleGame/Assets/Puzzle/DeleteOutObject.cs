@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeleteEnemy : MonoBehaviour{
+public class DeleteOutObject : MonoBehaviour{
 	void Start(){
 		
 	}
