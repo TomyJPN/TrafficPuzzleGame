@@ -5,7 +5,7 @@ public class RunCar : MonoBehaviour{
 	int Mode = 0;
 	float CarSpeed = 5;
 	float CarDir;
-	float CarXY, CarX, CarY;
+	float CarX, CarY;
 
 	void Start(){
 
@@ -21,9 +21,12 @@ public class RunCar : MonoBehaviour{
 
 
 	void Run(){
-		Quaternion CarXY = this.transform.rotation;
-		CarX = CarXY.x;		CarY = CarXY.y;
-		Vector2 CarDir = new Vector2(CarX, CarY).normalized;            //車の進行方向
+//		Quaternion CarXY = transform.rotation;
+		
+//		print(CarXY);
+//		float CarX
+//		Vector2 CarDir = new Vector2(CarX, CarY).normalized;            //車の進行方向
+		Vector2 CarDir = new Vector2(0, 1).normalized;		//テスト用
 		GetComponent<Rigidbody2D>().velocity = CarDir * CarSpeed; //方向*速度を代入
 	}
 }
