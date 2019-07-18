@@ -24,4 +24,8 @@ public class Title : MonoBehaviour
   public void loadGallaryScene() {
     SceneManager.LoadScene("Gallery");
   }
+
+  public void LoadGameScene() {
+    SceneManager.LoadScene("Puzzle@main");
+  }
 }

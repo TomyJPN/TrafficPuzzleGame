@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ManageMode : MonoBehaviour {
   public int Mode;
@@ -10,6 +11,9 @@ public class ManageMode : MonoBehaviour {
   public GameObject spawner;
   public GameObject sika;
   int sign;
+
+  [SerializeField]
+  GameObject clearUI;
 
   void Start() {
     Mode = 0;
@@ -49,5 +53,15 @@ public class ManageMode : MonoBehaviour {
     targetView.SetActive(true);
     sign = n;
     Debug.Log(n);
+  }
+
+  public void clear() {
+    Debug.Log("クリア！");
+    clearUI.SetActive(true);
+    Invoke("goTitle", 3f);
+  }
+
+  void goTitle() {
+    SceneManager.LoadScene("TitleScene");
   }
 }

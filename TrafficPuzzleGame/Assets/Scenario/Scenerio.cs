@@ -44,7 +44,7 @@ public class Scenerio : MonoBehaviour {
         Debug.Log(i.ToString() + "," + n.ToString() + textWords[i, n]);
       }
     }
-
+    Textupdate();
   }
 
   // Update is called once per frame
@@ -72,6 +72,7 @@ public class Scenerio : MonoBehaviour {
   }
 
   void End() {
+    transform.root.gameObject.SetActive(false);
     uiText.text = "The End...";
   }
 }

@@ -39,7 +39,9 @@ public class Car : MonoBehaviour {
   private void OnTriggerEnter2D(Collider2D collision) {
     Debug.Log("衝突:" + collision.gameObject.name);
     if (type == 1 && collision.gameObject.name == "goal") {
-      Debug.Log("クリア！");
+      ManageMode.clear();
     }
   }
+
+
 }
