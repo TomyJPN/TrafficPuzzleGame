@@ -199,19 +199,35 @@ public class GalleryScript : MonoBehaviour
     public void Details(string FileName, string SkinName, int Rarity ,int num)
     {
     Manager.Skin CheckSkin = Manager.Instance.GetNowSkin();
-        Trading.SetActive(false);
-        SkinSet.SetActive(false);
+    Manager.Skin CCheckSkin = Manager.Instance.GetCarSkin();
+    Manager.Skin ThisSkin = new Manager.Skin();
+    Trading.SetActive(false);
         Debug.Log(FileName);
-        if (Rarity == 0)
+    ThisSkin.num = num;
+    ThisSkin.rank = Rarity;
+    Debug.Log("人スキン番号" + CheckSkin.num + "人スキンレア度" + CheckSkin.rank);
+    Debug.Log("車スキン番号" + CCheckSkin.num + "車スキンレア度" + CCheckSkin.rank);
+    Debug.Log("スキン番号" + ThisSkin.num + "スキンレア度" + ThisSkin.rank);
+
+    if(
+      (CheckSkin.num==ThisSkin.num && CheckSkin.rank==ThisSkin.rank) ||
+      (CCheckSkin.num == ThisSkin.num && CCheckSkin.rank == ThisSkin.rank))
+    {
+      SkinSet.SetActive(false);
+      Debug.Log("同じ");
+    }    else
+    {
+      SkinSet.SetActive(true);
+    }
+    
+
+    if (Rarity == 0)
         {
             if (isSSRItemHaveList[num] == true)
             {
                 SName.text = SkinName;
                 Sprite = Resources.Load<Sprite>("Images/" + FileName);
-                if (CheckSkin.num != num || CheckSkin.rank != 2)
-                {
-                   SkinSet.SetActive(true);
-                }
+                
             }
             else
             {
@@ -230,10 +246,6 @@ public class GalleryScript : MonoBehaviour
             {
                 SName.text = SkinName;
                 Sprite = Resources.Load<Sprite>("Images/" + FileName);
-        if (CheckSkin.num != num || CheckSkin.rank != 1)
-        {
-          SkinSet.SetActive(true);
-        }
       }
             else
             {
@@ -252,10 +264,6 @@ public class GalleryScript : MonoBehaviour
             {
                 SName.text = SkinName;
                 Sprite = Resources.Load<Sprite>("Images/" + FileName);
-        if (CheckSkin.num != num || CheckSkin.rank != 0)
-        {
-          SkinSet.SetActive(true);
-        }
       }
             else
             {
@@ -343,59 +351,119 @@ public class GalleryScript : MonoBehaviour
     
   public void Set()
   {
-    Manager.Skin Skin;
+    Manager.Skin HumSkin,CarSkin;
     Debug.Log("スキンセット中");
     Debug.Log("番号 :" + DNum);
-    Skin = Manager.Instance.GetNowSkin();
+    HumSkin = Manager.Instance.GetNowSkin();
+    CarSkin = Manager.Instance.GetCarSkin();
     if (ScrollView[0].activeSelf == true)
     {
-      if (DNum == Skin.num)
+      if (SSRList[DNum,2][0] == 'C')
       {
-        Debug.Log("セット済");
-        return;
+        if (DNum == CarSkin.num)
+        {
+          Debug.Log("セット済");
+          return;
+        }
+        else
+        {
+          CarSkin.num = DNum;
+          CarSkin.rank = 0;
+          //CarSkin.name = SSRList[DNum, 1];
+         // Debug.Log("SSR : " + CarSkin.name + " : " + CarSkin.num);
+          Details(SSRList[DNum, 2], SSRList[DNum, 1], 0, DNum);
+        }
       }
       else
       {
-        Skin.num = DNum;
-        Skin.rank = 2;
-        Skin.name = SSRList[DNum, 1];
-        Debug.Log("SSR : " + Skin.name + " : " + Skin.num);
-        Details(SSRList[DNum, 2], SSRList[DNum, 1], 0, DNum);
+        if (DNum == HumSkin.num)
+        {
+          Debug.Log("セット済");
+          return;
+        }
+        else
+        {
+          HumSkin.num = DNum;
+          HumSkin.rank = 0;
+         // HumSkin.name = SSRList[DNum, 1];
+          //Debug.Log("SSR : " + HumSkin.name + " : " + HumSkin.num);
+          Details(SSRList[DNum, 2], SSRList[DNum, 1], 0, DNum);
+        }
       }
     }
     else if (ScrollView[1].activeSelf == true)
     {
-      if (DNum == Skin.num)
+      if (SRList[DNum, 2][0] == 'C')
       {
-        Debug.Log("セット済");
-        return;
+        if (DNum == CarSkin.num)
+        {
+          Debug.Log("セット済");
+          return;
+        }
+        else
+        {
+          CarSkin.num = DNum;
+          CarSkin.rank = 1;
+          //CarSkin.name = SRList[DNum, 1];
+          //Debug.Log("SR : " + CarSkin.name + " : " + CarSkin.num);
+          Details(SRList[DNum, 2], SRList[DNum, 1], 1, DNum);
+        }
       }
       else
       {
-        Skin.num = DNum;
-        Skin.rank = 1;
-        Skin.name = SRList[DNum, 1];
-        Debug.Log("SR : " + Skin.name + " : " + Skin.num);
-        Details(SRList[DNum, 2], SRList[DNum, 1], 1, DNum);
+        if (DNum == HumSkin.num)
+        {
+          Debug.Log("セット済");
+          return;
+        }
+        else
+        {
+          HumSkin.num = DNum;
+          HumSkin.rank = 1;
+          //HumSkin.name = SRList[DNum, 1];
+          //Debug.Log("SR : " + HumSkin.name + " : " + HumSkin.num);
+          Details(SRList[DNum, 2], SRList[DNum, 1], 1, DNum);
+        }
       }
     }
     else
     {
-      if (DNum == Skin.num)
+      if (RList[DNum, 2][0] == 'C')
       {
-        Debug.Log("セット済");
-        return;
+        if (DNum == CarSkin.num)
+        {
+          Debug.Log("セット済");
+          return;
+        }
+        else
+        {
+          CarSkin.num = DNum;
+          CarSkin.rank = 2;
+          //CarSkin.name = RList[DNum, 1];
+         // Debug.Log("R : " + CarSkin.name + " : " + CarSkin.num);
+          Details(RList[DNum, 2], RList[DNum, 1], 2, DNum);
+        }
       }
       else
       {
-        Skin.num = DNum;
-        Skin.rank = 0;
-        Skin.name = RList[DNum, 1];
-        Debug.Log("R : " + Skin.name + " : " + Skin.num);
-        Details(RList[DNum, 2], RList[DNum, 1], 2, DNum);
+        if (DNum == HumSkin.num)
+        {
+          Debug.Log("セット済");
+          return;
+        }
+        else
+        {
+          HumSkin.num = DNum;
+          HumSkin.rank = 2;
+         // HumSkin.name = RList[DNum, 1];
+          //Debug.Log("R : " + HumSkin.name + " : " + HumSkin.num);
+          Details(RList[DNum, 2], RList[DNum, 1], 2, DNum);
+        }
       }
     }
-    Manager.Instance.SetNowSkin(Skin);
+    Manager.Instance.SetNowSkin(HumSkin);
+    Manager.Instance.SetCarSkin(CarSkin);
+    Manager.Instance.DataSave();
   }
 
     void ReLoad()//リロード
