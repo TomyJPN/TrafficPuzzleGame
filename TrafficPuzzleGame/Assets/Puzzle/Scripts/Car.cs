@@ -43,5 +43,7 @@ public class Car : MonoBehaviour {
     }
   }
 
-
+  public void onClick() {
+    Debug.Log("click");
+  }
 }

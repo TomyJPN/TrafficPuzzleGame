@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class target : MonoBehaviour {
+  ManageMode manageMode;
+
+
   // Start is called before the first frame update
   void Start() {
-
+    manageMode = GameObject.Find("manager").GetComponent<ManageMode>();
   }
 
   // Update is called once per frame
@@ -13,7 +17,12 @@ public class target : MonoBehaviour {
 
   }
 
+  
+
   public void onClick() {
-    Debug.Log("何も起きなかった");
+    if (!manageMode.choosing) return;
+
+    Debug.Log("target Clicked");
+    manageMode.setSignImage(GetComponent<SpriteRenderer>());
   }
 }

@@ -3,15 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class signBtn : MonoBehaviour {
-  public enum EaseType {
-    tyusya,
-    tomare,
-    rakuseki,
-    sika,
-    sokudo,
-    NoSinnyu
-  }
-  [SerializeField] EaseType easeType;
+  int type;
   // Start is called before the first frame update
   void Start() {
 
@@ -23,6 +15,10 @@ public class signBtn : MonoBehaviour {
   }
 
   public void onClick() {
-    GameObject.Find("manager").GetComponent<ManageMode>().SetSign((int)easeType);
+    GameObject.Find("manager").GetComponent<ManageMode>().SetSign(type);
+  }
+
+  public void setType(int i) {
+    type = i;
   }
 }
