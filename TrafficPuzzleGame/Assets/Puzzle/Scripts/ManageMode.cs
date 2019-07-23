@@ -9,9 +9,9 @@ public class ManageMode : MonoBehaviour {
   public GameObject eventCol;
   public GameObject syogaiCol;
   public GameObject targetView;
-  public GameObject spawner;
   public GameObject sika;
   int sign;
+  public bool isClear;
 
   string[] textMessage; //テキストの加工前の一行を入れる変数
   string[,] SignList; //標識のリスト
@@ -19,7 +19,27 @@ public class ManageMode : MonoBehaviour {
   private int rowLength; //テキスト内の行数を取得する変数
   private int columnLength; //テキスト内の列数を取得する変数
   int stage=0;
-  int[,] SignBtnSetting = new int[,] { {0,1,2,5,8 } };
+  int[,] SignBtnSetting = new int[,] { 
+    {
+      (int)signName.tyusha,
+      (int)signName.sinnyu,
+      (int)signName.high,
+      (int)signName.ichiji,
+      (int)signName.doubutsu
+    }
+  };
+
+  enum signName {
+    tyusha,
+    sinnyu,
+    high,
+    low,
+    jidosha,
+    ichiji,
+    suberi,
+    rakuseki,
+    doubutsu
+  }
 
   public bool choosing;  //標識選択中か
 
@@ -97,15 +117,27 @@ public class ManageMode : MonoBehaviour {
     Debug.Log("間違い");
   }
 
-  void deleteSpawner() {
-    spawner.SetActive(false);
-  }
-
   public void SetSign(int n) {
     choosing = true;
     targetView.SetActive(true);
     sign = n;
     Debug.Log(n);
+  }
+
+  public void praceSign() {
+    Debug.Log("praceSign");
+    if (stage == 0) {
+      if (sign == (int)signName.sinnyu || sign == (int)signName.ichiji || sign == (int)signName.doubutsu) {
+        targetView.SetActive(false);
+        if (sign == (int)signName.doubutsu) {
+          sika.SetActive(true);
+        }
+        isClear = true;
+      }
+      else {
+        OnFalseBtn();
+      }
+    }
   }
 
   public void setSignImage(SpriteRenderer spriteRenderer) {

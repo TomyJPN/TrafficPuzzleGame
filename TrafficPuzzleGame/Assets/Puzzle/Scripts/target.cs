@@ -24,5 +24,7 @@ public class target : MonoBehaviour {
 
     Debug.Log("target Clicked");
     manageMode.setSignImage(GetComponent<SpriteRenderer>());
+    manageMode.praceSign();
+
   }
 }

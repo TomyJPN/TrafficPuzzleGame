@@ -44,6 +44,6 @@ public class Car : MonoBehaviour {
   }
 
   public void onClick() {
-    Debug.Log("click");
+    GameObject.Find("manager").GetComponent<ManageMode>().Trying();
   }
 }
