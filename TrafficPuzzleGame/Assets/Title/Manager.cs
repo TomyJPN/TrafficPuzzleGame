@@ -31,12 +31,9 @@ public class Manager : SingletonMonoBehaviour<Manager> {
   int SSRL;//SSrの個数
 
   Skin nowSkin;
+  Skin CarSkin;
 
   public class Skin {
-    /// <summary>
-    /// スキン名
-    /// </summary>
-    public string name = "";
     /// <summary>
     /// レア度（R=0,SR=1,SSR=2）
     /// </summary>
@@ -79,9 +76,7 @@ public class Manager : SingletonMonoBehaviour<Manager> {
     }
 
   void Start() {
-    nowSkin = new Skin();
-    nowSkin.name = "オリジナル";
-    nowSkin.rank = 0;
+    
   }
   /// <summary>
   /// レアリストの二次元配列を返します
@@ -303,6 +298,12 @@ public class Manager : SingletonMonoBehaviour<Manager> {
     PlayerPrefs.SetString("SSRList", HaveSSRList);
     PlayerPrefs.SetInt("Ticket", excangeTicket);
     PlayerPrefs.SetInt("Coin", coinNum);
+    PlayerPrefs.SetInt("NowSkinNum", nowSkin.num);
+    PlayerPrefs.SetInt("NowSkinRank", nowSkin.rank);
+    PlayerPrefs.SetInt("CarSkinNum", CarSkin.num);
+    PlayerPrefs.SetInt("CarSkinRank", CarSkin.rank);
+    Debug.Log("[Save]人Skin:" + nowSkin.rank+":"+nowSkin.num);
+    Debug.Log("[Save]車Skin:" + CarSkin.rank + ":" + CarSkin.num);
   }
 
   /// <summary>
@@ -385,17 +386,65 @@ public class Manager : SingletonMonoBehaviour<Manager> {
       Debug.Log("CoinDataはありません");
       setCoinNum(0);
     }
+    Debug.Log("人用スキン情報を確認");
+    nowSkin = new Skin();
+    if (PlayerPrefs.HasKey("NowSkinNum"))
+    {
+      nowSkin.num = PlayerPrefs.GetInt("NowSkinNum");
+      nowSkin.rank = PlayerPrefs.GetInt("NowSkinRank");
+    }
+    else
+    {
+      Debug.Log("人用スキン情報はありません");
+      nowSkin.rank = 2;
+      nowSkin.num = 10;
+    }
+    CarSkin = new Skin();
+    if (PlayerPrefs.HasKey("CarSkinNum"))
+    {
+      CarSkin.num = PlayerPrefs.GetInt("CarSkinNum");
+      CarSkin.rank = PlayerPrefs.GetInt("CarSkinRank");
+    }
+    else
+    {
+      Debug.Log("人用スキン情報はありません");
+      CarSkin.rank = 2;
+      CarSkin.num = 0;
+    }
   }
 
+  /// <summary>
+  /// 現在の人用スキン情報を取得
+  /// </summary>
   public Skin GetNowSkin()
   {
     return nowSkin;
   }
+  /// <summary>
+  /// 人のスキンをセット
+  /// </summary>
   public void SetNowSkin(Skin skin)
   {
     nowSkin = skin;
-    Debug.Log("スキンname : " + nowSkin.name);
+   // Debug.Log("スキンname : " + nowSkin.name);
     Debug.Log("スキン番号 : " + nowSkin.num);
     Debug.Log(" レア度" + nowSkin.rank);
+  }
+  /// <summary>
+  /// 現在の車用スキン情報取得
+  /// </summary>
+  public Skin GetCarSkin()
+  {
+    return CarSkin;
+  }
+  /// <summary>
+  /// 車用スキンをセット
+  /// </summary>
+  public void SetCarSkin(Skin skin)
+  {
+    CarSkin = skin;
+ //   Debug.Log("スキンname : " + CarSkin.name);
+    Debug.Log("スキン番号 : " + CarSkin.num);
+    Debug.Log(" レア度" + CarSkin.rank);
   }
 }
