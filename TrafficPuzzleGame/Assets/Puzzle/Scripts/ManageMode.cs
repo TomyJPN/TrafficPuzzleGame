@@ -16,6 +16,13 @@ public class ManageMode : MonoBehaviour {
   string[] textMessage; //テキストの加工前の一行を入れる変数
   string[,] SignList; //標識のリスト
 
+  [SerializeField]
+  Image signImage;
+  [SerializeField]
+  Text signNameText;
+  [SerializeField]
+  Text signDescriptionText;
+
   private int rowLength; //テキスト内の行数を取得する変数
   private int columnLength; //テキスト内の列数を取得する変数
   int stage=0;
@@ -120,6 +127,9 @@ public class ManageMode : MonoBehaviour {
   public void SetSign(int n) {
     choosing = true;
     targetView.SetActive(true);
+    signImage.sprite= Resources.Load<Sprite>("Signs/" + SignList[n, 1]);
+    signNameText.text = SignList[n, 0];
+    signDescriptionText.text = SignList[n,2];
     sign = n;
     Debug.Log(n);
   }
@@ -133,6 +143,9 @@ public class ManageMode : MonoBehaviour {
           sika.SetActive(true);
         }
         isClear = true;
+      }
+      else if (sign==(int)signName.high) {
+        GameObject.Find("speedChanger").GetComponent<SpeedChanger>().newSpeed=3f;
       }
       else {
         OnFalseBtn();

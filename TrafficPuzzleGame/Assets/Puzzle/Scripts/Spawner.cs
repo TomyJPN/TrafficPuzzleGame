@@ -16,6 +16,9 @@ public class Spawner : MonoBehaviour {
   [SerializeField]
   GameObject after;
 
+  [SerializeField]
+  GameObject speedChanger;
+
   void Start() {
     manageMode = GameObject.Find("manager").GetComponent<ManageMode>();
     StartCoroutine("Spawn");

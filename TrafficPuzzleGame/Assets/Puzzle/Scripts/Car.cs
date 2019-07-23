@@ -46,4 +46,8 @@ public class Car : MonoBehaviour {
   public void onClick() {
     GameObject.Find("manager").GetComponent<ManageMode>().Trying();
   }
+
+  public void setSpeed(float newSpeed) {
+    CarSpeed = newSpeed;
+  }
 }
