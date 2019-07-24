@@ -8,7 +8,7 @@ public class Car : MonoBehaviour {
   public int type;
 
   int Mode = 0;
-  float CarSpeed = 5;
+  public float CarSpeed = 5;
   float CarDir;
   public float CarX, CarY;
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class target : MonoBehaviour {
   ManageMode manageMode;
 
-
+  public int id;
   // Start is called before the first frame update
   void Start() {
     manageMode = GameObject.Find("manager").GetComponent<ManageMode>();
@@ -24,7 +24,7 @@ public class target : MonoBehaviour {
 
     Debug.Log("target Clicked");
     manageMode.setSignImage(GetComponent<SpriteRenderer>());
-    manageMode.praceSign();
+    manageMode.praceSign(id);
 
   }
 }

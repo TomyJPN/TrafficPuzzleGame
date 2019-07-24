@@ -9,7 +9,7 @@ public class ManageMode : MonoBehaviour {
   public GameObject eventCol;
   public GameObject syogaiCol;
   public GameObject targetView;
-  public GameObject sika;
+  public GameObject sika; //これはヤバイ1
   int sign;
   public bool isClear;
 
@@ -23,9 +23,14 @@ public class ManageMode : MonoBehaviour {
   [SerializeField]
   Text signDescriptionText;
 
+  [SerializeField]
+  GameObject rakuseki;  //これはヤバイ2
+  [SerializeField]
+  GameObject hole;
+
   private int rowLength; //テキスト内の行数を取得する変数
   private int columnLength; //テキスト内の列数を取得する変数
-  int stage=0;
+  public int stage=1;
   int[,] SignBtnSetting = new int[,] { 
     {
       (int)signName.tyusha,
@@ -33,6 +38,13 @@ public class ManageMode : MonoBehaviour {
       (int)signName.high,
       (int)signName.ichiji,
       (int)signName.doubutsu
+    },
+    {
+      (int)signName.sinnyu,
+      (int)signName.jidosha,
+      (int)signName.low,
+      (int)signName.suberi,
+      (int)signName.rakuseki
     }
   };
 
@@ -95,9 +107,9 @@ public class ManageMode : MonoBehaviour {
   }
   void SetSignBtn() {
     for(int i = 0; i < 5; i++) {
-      Signs[i].GetComponent<Image>().sprite = Resources.Load<Sprite>("Signs/" + SignList[SignBtnSetting[0,i],1]);
-      Signs[i].GetComponent<signBtn>().setType(SignBtnSetting[0, i]);
-      Debug.Log("[設定]"+SignList[SignBtnSetting[0, i], 0]);
+      Signs[i].GetComponent<Image>().sprite = Resources.Load<Sprite>("Signs/" + SignList[SignBtnSetting[stage,i],1]);
+      Signs[i].GetComponent<signBtn>().setType(SignBtnSetting[stage, i]);
+      Debug.Log("[設定]"+SignList[SignBtnSetting[stage, i], 0]);
     }
   }
   public string[,] getSignList() {
@@ -137,7 +149,7 @@ public class ManageMode : MonoBehaviour {
     Debug.Log(n);
   }
 
-  public void praceSign() {
+  public void praceSign(int id) {
     Debug.Log("praceSign");
     if (stage == 0) {
       if (sign == (int)signName.sinnyu || sign == (int)signName.ichiji || sign == (int)signName.doubutsu) {
@@ -152,6 +164,14 @@ public class ManageMode : MonoBehaviour {
       }
       else {
         OnFalseBtn();
+      }
+    }else if (stage == 1) {
+      if(id==0 && sign == (int)signName.rakuseki) {
+        rakuseki.SetActive(false);
+        hole.SetActive(true);
+      }
+      if(id==1 && sign == (int)signName.jidosha) {
+        isClear = true;
       }
     }
   }
