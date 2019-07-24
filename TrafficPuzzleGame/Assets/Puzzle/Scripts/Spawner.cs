@@ -25,6 +25,10 @@ public class Spawner : MonoBehaviour {
 
   void Start() {
     manageMode = GameObject.Find("manager").GetComponent<ManageMode>();
+    Invoke("startSpawn", 0.2f);
+  }
+
+  void startSpawn() {
     StartCoroutine("Spawn");
   }
 

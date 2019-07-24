@@ -7,6 +7,9 @@ public class Title : MonoBehaviour
 {
   [SerializeField]
   GameObject MapMenu;
+
+  [SerializeField]
+  GameObject Credit;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +31,16 @@ public class Title : MonoBehaviour
   }
 
   public void LoadGameScene() {
+    Manager.Instance.templyGameStage = 0;
+    SceneManager.LoadScene("Puzzle@main");
+  }
+
+  public void onStage1() {
+    Manager.Instance.templyGameStage = 1;
+    SceneManager.LoadScene("Puzzle@main");
+  }
+  public void onStage2() {
+    Manager.Instance.templyGameStage = 2;
     SceneManager.LoadScene("Puzzle@main");
   }
 
@@ -37,5 +50,12 @@ public class Title : MonoBehaviour
 
   public void OnMapMenuCloseBtn() {
     MapMenu.SetActive(false);
+  }
+
+  public void OnCreditBtn() {
+    Credit.SetActive(true);
+  }
+  public void OnCloseCredit() {
+    Credit.SetActive(false);
   }
 }

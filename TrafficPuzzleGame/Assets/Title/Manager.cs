@@ -33,6 +33,9 @@ public class Manager : SingletonMonoBehaviour<Manager> {
   Skin nowSkin;
   Skin CarSkin;
 
+
+  public int templyGameStage;
+
   public class Skin {
     /// <summary>
     /// レア度（R=0,SR=1,SSR=2）
@@ -397,7 +400,7 @@ public class Manager : SingletonMonoBehaviour<Manager> {
     {
       Debug.Log("人用スキン情報はありません");
       nowSkin.rank = 2;
-      nowSkin.num = 10;
+      nowSkin.num = 6;
     }
     CarSkin = new Skin();
     if (PlayerPrefs.HasKey("CarSkinNum"))

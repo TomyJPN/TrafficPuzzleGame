@@ -13,6 +13,7 @@ public class ManageMode : MonoBehaviour {
   int sign;
   public bool isClear;
 
+
   string[] textMessage; //テキストの加工前の一行を入れる変数
   string[,] SignList; //標識のリスト
 
@@ -35,7 +36,7 @@ public class ManageMode : MonoBehaviour {
 
   private int rowLength; //テキスト内の行数を取得する変数
   private int columnLength; //テキスト内の列数を取得する変数
-  public int stage=1;
+  public int stage;
   int[,] SignBtnSetting = new int[,] { 
     {
       (int)signName.tyusha,
@@ -74,11 +75,27 @@ public class ManageMode : MonoBehaviour {
   GameObject clearUI;
 
   void Start() {
+
+    if (Manager.Instance.templyGameStage == 0) {
+      stage = 0;
+      GameObject.Find("map2").SetActive(false);
+    }
+    else if (Manager.Instance.templyGameStage == 1) {
+      stage = 0;
+      GameObject.Find("map2").SetActive(false);
+      GameObject.Find("Canvas_Scenario").SetActive(false);
+    }
+    else if (Manager.Instance.templyGameStage == 2) {
+      stage = 1;
+      GameObject.Find("map1").SetActive(false);
+      GameObject.Find("Canvas_Scenario").SetActive(false);
+    }
+
     Mode = 0;
     LoadSigns();
     SetSignBtn();
     SetSkin();
-    
+
   }
 
   void SetSkin() {

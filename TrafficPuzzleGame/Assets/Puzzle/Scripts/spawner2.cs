@@ -12,13 +12,18 @@ public class spawner2 : MonoBehaviour {
   // Start is called before the first frame update
   void Start() {
     manageMode = GameObject.Find("manager").GetComponent<ManageMode>();
-    StartCoroutine("Spawn");
+    Invoke("startSpawn", 0.2f);
   }
 
   // Update is called once per frame
   void Update() {
-
+    
   }
+
+  void startSpawn() {
+    StartCoroutine("Spawn");
+  }
+
   IEnumerator Spawn() {
     while (true) {
       if (manageMode.isClear) break;
