@@ -60,6 +60,9 @@ public class ManageMode : MonoBehaviour {
     Mode = 0;
     LoadSigns();
     SetSignBtn();
+    Debug.Log("スキンは");
+    Debug.Log(Manager.Instance.GetNowSkin().rank);
+    Debug.Log(Manager.Instance.GetNowSkin().num);
   }
 
   void Update() {

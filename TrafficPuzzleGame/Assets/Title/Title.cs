@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
+  [SerializeField]
+  GameObject MapMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,5 +29,13 @@ public class Title : MonoBehaviour
 
   public void LoadGameScene() {
     SceneManager.LoadScene("Puzzle@main");
+  }
+
+  public void OnMapMenuBtn() {
+    MapMenu.SetActive(true);
+  }
+
+  public void OnMapMenuCloseBtn() {
+    MapMenu.SetActive(false);
   }
 }
