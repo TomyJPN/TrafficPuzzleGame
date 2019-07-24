@@ -28,6 +28,11 @@ public class ManageMode : MonoBehaviour {
   [SerializeField]
   GameObject hole;
 
+  [SerializeField]
+  Image wakabaSkin;
+  [SerializeField]
+  SpriteRenderer carSkin;
+
   private int rowLength; //テキスト内の行数を取得する変数
   private int columnLength; //テキスト内の列数を取得する変数
   public int stage=1;
@@ -72,9 +77,33 @@ public class ManageMode : MonoBehaviour {
     Mode = 0;
     LoadSigns();
     SetSignBtn();
+    SetSkin();
+    
+  }
+
+  void SetSkin() {
     Debug.Log("スキンは");
-    Debug.Log(Manager.Instance.GetNowSkin().rank);
-    Debug.Log(Manager.Instance.GetNowSkin().num);
+    Debug.Log(Manager.Instance.GetCarSkin().rank);
+    Debug.Log(Manager.Instance.GetCarSkin().num);
+    if (Manager.Instance.GetNowSkin().rank == 2) {
+      wakabaSkin.sprite = Resources.Load<Sprite>("Images/" + Manager.Instance.getRList()[Manager.Instance.GetNowSkin().num, 2]);
+    }
+    else if (Manager.Instance.GetNowSkin().rank == 1) {
+      wakabaSkin.sprite = Resources.Load<Sprite>("Images/" + Manager.Instance.getSRList()[Manager.Instance.GetNowSkin().num, 2]);
+    }
+    else if (Manager.Instance.GetNowSkin().rank == 0) {
+      wakabaSkin.sprite = Resources.Load<Sprite>("Images/" + Manager.Instance.getSSRList()[Manager.Instance.GetNowSkin().num, 2]);
+    }
+
+    if (Manager.Instance.GetCarSkin().rank == 2) {
+      carSkin.sprite = Resources.Load<Sprite>("Images/" + Manager.Instance.getRList()[Manager.Instance.GetCarSkin().num, 2]);
+    }
+    else if (Manager.Instance.GetCarSkin().rank == 1) {
+      carSkin.sprite = Resources.Load<Sprite>("Images/" + Manager.Instance.getSRList()[Manager.Instance.GetCarSkin().num, 2]);
+    }
+    else if (Manager.Instance.GetCarSkin().rank == 0) {
+      carSkin.sprite = Resources.Load<Sprite>("Images/" + Manager.Instance.getSSRList()[Manager.Instance.GetCarSkin().num, 2]);
+    }
   }
 
   void Update() {
@@ -191,7 +220,7 @@ public class ManageMode : MonoBehaviour {
     Invoke("goTitle", 3f);
   }
 
-  void goTitle() {
+  public void goTitle() {
     SceneManager.LoadScene("TitleScene");
   }
 
